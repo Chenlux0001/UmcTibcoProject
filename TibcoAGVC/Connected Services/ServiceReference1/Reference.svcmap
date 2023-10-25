@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c14d37d3-844c-4489-bffc-df5029ac1dc8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://127.0.0.1:40005/MissionService/mex" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="mex.xsd" MetadataType="Schema" ID="0397ff15-8ce3-4807-b5eb-301ba94420ff" SourceId="1" SourceUrl="http://127.0.0.1:40005/MissionService/mex?xsd=xsd1" />
+    <MetadataFile FileName="mex1.xsd" MetadataType="Schema" ID="f617d9ee-2cd3-483a-b852-ceb7bb684182" SourceId="1" SourceUrl="http://127.0.0.1:40005/MissionService/mex?xsd=xsd2" />
+    <MetadataFile FileName="mex2.xsd" MetadataType="Schema" ID="7c2e0f81-b072-4da0-b81f-7d01e3472b66" SourceId="1" SourceUrl="http://127.0.0.1:40005/MissionService/mex?xsd=xsd3" />
+    <MetadataFile FileName="MissionService.wsdl" MetadataType="Wsdl" ID="6541aa9d-34ba-477e-92fe-67a77186c184" SourceId="1" SourceUrl="http://127.0.0.1:40005/MissionService/mex" />
+    <MetadataFile FileName="mex3.xsd" MetadataType="Schema" ID="84a1700a-9d46-44a4-ba3b-53b7d66e82df" SourceId="1" SourceUrl="http://127.0.0.1:40005/MissionService/mex?xsd=xsd4" />
+    <MetadataFile FileName="mex4.xsd" MetadataType="Schema" ID="f6a769f1-fd74-46bf-8b0b-75838919b6ec" SourceId="1" SourceUrl="http://127.0.0.1:40005/MissionService/mex?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

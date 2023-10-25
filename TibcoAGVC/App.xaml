@@ -1,0 +1,11 @@
+﻿<Application x:Class="TibcoAGVC.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TibcoAGVC"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="DefaultBorderBackgroundColor" Color="FloralWhite"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

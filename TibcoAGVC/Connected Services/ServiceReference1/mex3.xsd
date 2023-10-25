@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GB.MobileRobot.MissionManagement.Shared.Dtos" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GB.MobileRobot.MissionManagement.Shared.Dtos" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="MissionAssignmentModeDto">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Allow" />
+      <xs:enumeration value="Disallow" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MissionAssignmentModeDto" nillable="true" type="tns:MissionAssignmentModeDto" />
+  <xs:simpleType name="ServiceModeDto">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Online" />
+      <xs:enumeration value="Offline" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ServiceModeDto" nillable="true" type="tns:ServiceModeDto" />
+  <xs:simpleType name="AgvModeDto">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Manual" />
+      <xs:enumeration value="Auto" />
+      <xs:enumeration value="Error" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="AgvModeDto" nillable="true" type="tns:AgvModeDto" />
+  <xs:simpleType name="AgvOperationStateDto">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Idle" />
+      <xs:enumeration value="Moving" />
+      <xs:enumeration value="Pick" />
+      <xs:enumeration value="Drop" />
+      <xs:enumeration value="Charging" />
+      <xs:enumeration value="Error" />
+      <xs:enumeration value="AgvSickPause" />
+      <xs:enumeration value="AgvVerticalPause" />
+      <xs:enumeration value="RobotPause" />
+      <xs:enumeration value="PickCharging" />
+      <xs:enumeration value="DropCharging" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="AgvOperationStateDto" nillable="true" type="tns:AgvOperationStateDto" />
+</xs:schema>

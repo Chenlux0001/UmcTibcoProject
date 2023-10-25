@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MissionService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://127.0.0.1:40005/MissionService/mex?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://127.0.0.1:40005/MissionService/mex?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://127.0.0.1:40005/MissionService/mex?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://127.0.0.1:40005/MissionService/mex?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/GB.MobileRobot.MissionManagement.MissionService.Dtos" />
+      <xsd:import schemaLocation="http://127.0.0.1:40005/MissionService/mex?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/GB.MobileRobot.MissionManagement.Shared.Dtos" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMissionService_ConnectToService_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConnectToService" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_ConnectToService_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConnectToServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_SetSystemTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetSystemTime" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_SetSystemTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetSystemTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_RequestHeartBeat_InputMessage">
+    <wsdl:part name="parameters" element="tns:RequestHeartBeat" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_RequestHeartBeat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RequestHeartBeatResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvIds_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvIds" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvIds_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvIdsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_InvokeMissionTasks_InputMessage">
+    <wsdl:part name="parameters" element="tns:InvokeMissionTasks" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_InvokeMissionTasks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InvokeMissionTasksResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_AbortMission_InputMessage">
+    <wsdl:part name="parameters" element="tns:AbortMission" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_AbortMission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AbortMissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_ChangeMission_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeMission" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_ChangeMission_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeMissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetMissionInfos_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMissionInfos" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetMissionInfos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMissionInfosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_NotifyLoadAccepted_InputMessage">
+    <wsdl:part name="parameters" element="tns:NotifyLoadAccepted" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_NotifyLoadAccepted_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NotifyLoadAcceptedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_NotifyUnloadAccepted_InputMessage">
+    <wsdl:part name="parameters" element="tns:NotifyUnloadAccepted" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_NotifyUnloadAccepted_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NotifyUnloadAcceptedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetBatteryLevel_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBatteryLevel" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetBatteryLevel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBatteryLevelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetLocation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLocation" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetLocation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLocationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetStorageStates_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStorageStates" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetStorageStates_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStorageStatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvState_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvState" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvMissionState_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvMissionState" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvMissionState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvMissionStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_Dock_InputMessage">
+    <wsdl:part name="parameters" element="tns:Dock" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_Dock_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DockResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_ModifyMissionAssignmentMode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ModifyMissionAssignmentMode" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_ModifyMissionAssignmentMode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ModifyMissionAssignmentModeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_NotifySendSmartTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:NotifySendSmartTag" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_NotifySendSmartTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NotifySendSmartTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetServiceMode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServiceMode" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetServiceMode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServiceModeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvMode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvMode" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvMode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvModeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvOperationState_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvOperationState" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetAgvOperationState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgvOperationStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetTotalMileage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTotalMileage" />
+  </wsdl:message>
+  <wsdl:message name="IMissionService_GetTotalMileage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTotalMileageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMissionService">
+    <wsdl:operation name="ConnectToService">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/ConnectToService" message="tns:IMissionService_ConnectToService_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/ConnectToServiceResponse" message="tns:IMissionService_ConnectToService_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSystemTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/SetSystemTime" message="tns:IMissionService_SetSystemTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/SetSystemTimeResponse" message="tns:IMissionService_SetSystemTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestHeartBeat">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/RequestHeartBeat" message="tns:IMissionService_RequestHeartBeat_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/RequestHeartBeatResponse" message="tns:IMissionService_RequestHeartBeat_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvIds">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetAgvIds" message="tns:IMissionService_GetAgvIds_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetAgvIdsResponse" message="tns:IMissionService_GetAgvIds_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InvokeMissionTasks">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/InvokeMissionTasks" message="tns:IMissionService_InvokeMissionTasks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/InvokeMissionTasksResponse" message="tns:IMissionService_InvokeMissionTasks_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AbortMission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/AbortMission" message="tns:IMissionService_AbortMission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/AbortMissionResponse" message="tns:IMissionService_AbortMission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMission">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/ChangeMission" message="tns:IMissionService_ChangeMission_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/ChangeMissionResponse" message="tns:IMissionService_ChangeMission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMissionInfos">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetMissionInfos" message="tns:IMissionService_GetMissionInfos_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetMissionInfosResponse" message="tns:IMissionService_GetMissionInfos_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyLoadAccepted">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/NotifyLoadAccepted" message="tns:IMissionService_NotifyLoadAccepted_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/NotifyLoadAcceptedResponse" message="tns:IMissionService_NotifyLoadAccepted_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifyUnloadAccepted">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/NotifyUnloadAccepted" message="tns:IMissionService_NotifyUnloadAccepted_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/NotifyUnloadAcceptedResponse" message="tns:IMissionService_NotifyUnloadAccepted_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBatteryLevel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetBatteryLevel" message="tns:IMissionService_GetBatteryLevel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetBatteryLevelResponse" message="tns:IMissionService_GetBatteryLevel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLocation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetLocation" message="tns:IMissionService_GetLocation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetLocationResponse" message="tns:IMissionService_GetLocation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStorageStates">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetStorageStates" message="tns:IMissionService_GetStorageStates_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetStorageStatesResponse" message="tns:IMissionService_GetStorageStates_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetAgvState" message="tns:IMissionService_GetAgvState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetAgvStateResponse" message="tns:IMissionService_GetAgvState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvMissionState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetAgvMissionState" message="tns:IMissionService_GetAgvMissionState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetAgvMissionStateResponse" message="tns:IMissionService_GetAgvMissionState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Dock">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/Dock" message="tns:IMissionService_Dock_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/DockResponse" message="tns:IMissionService_Dock_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyMissionAssignmentMode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/ModifyMissionAssignmentMode" message="tns:IMissionService_ModifyMissionAssignmentMode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/ModifyMissionAssignmentModeResponse" message="tns:IMissionService_ModifyMissionAssignmentMode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NotifySendSmartTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/NotifySendSmartTag" message="tns:IMissionService_NotifySendSmartTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/NotifySendSmartTagResponse" message="tns:IMissionService_NotifySendSmartTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceMode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetServiceMode" message="tns:IMissionService_GetServiceMode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetServiceModeResponse" message="tns:IMissionService_GetServiceMode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvMode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetAgvMode" message="tns:IMissionService_GetAgvMode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetAgvModeResponse" message="tns:IMissionService_GetAgvMode_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvOperationState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetAgvOperationState" message="tns:IMissionService_GetAgvOperationState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetAgvOperationStateResponse" message="tns:IMissionService_GetAgvOperationState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTotalMileage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMissionService/GetTotalMileage" message="tns:IMissionService_GetTotalMileage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMissionService/GetTotalMileageResponse" message="tns:IMissionService_GetTotalMileage_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMissionService" type="tns:IMissionService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConnectToService">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/ConnectToService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetSystemTime">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/SetSystemTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestHeartBeat">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/RequestHeartBeat" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvIds">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetAgvIds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InvokeMissionTasks">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/InvokeMissionTasks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AbortMission">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/AbortMission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeMission">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/ChangeMission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMissionInfos">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetMissionInfos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyLoadAccepted">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/NotifyLoadAccepted" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyUnloadAccepted">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/NotifyUnloadAccepted" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBatteryLevel">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetBatteryLevel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLocation">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetLocation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStorageStates">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetStorageStates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvState">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetAgvState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvMissionState">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetAgvMissionState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Dock">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/Dock" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyMissionAssignmentMode">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/ModifyMissionAssignmentMode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifySendSmartTag">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/NotifySendSmartTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceMode">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetServiceMode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvMode">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetAgvMode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgvOperationState">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetAgvOperationState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTotalMileage">
+      <soap:operation soapAction="http://tempuri.org/IMissionService/GetTotalMileage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MissionService">
+    <wsdl:port name="BasicHttpBinding_IMissionService" binding="tns:BasicHttpBinding_IMissionService">
+      <soap:address location="http://127.0.0.1:40005/MissionService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

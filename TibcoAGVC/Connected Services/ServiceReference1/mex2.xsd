@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GB.MobileRobot.MissionManagement.MissionService.Dtos" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GB.MobileRobot.MissionManagement.MissionService.Dtos" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfMissionTaskDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MissionTaskDto" nillable="true" type="tns:MissionTaskDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMissionTaskDto" nillable="true" type="tns:ArrayOfMissionTaskDto" />
+  <xs:complexType name="MissionTaskDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Goal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TaskIndex" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MissionTaskDto" nillable="true" type="tns:MissionTaskDto" />
+  <xs:complexType name="PickTaskDto">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MissionTaskDto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CargoId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PortId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ReadSmartTag" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PickTaskDto" nillable="true" type="tns:PickTaskDto" />
+  <xs:complexType name="DropTaskDto">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MissionTaskDto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CargoId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PortId" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DropTaskDto" nillable="true" type="tns:DropTaskDto" />
+  <xs:complexType name="GotoTaskDto">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MissionTaskDto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PortId" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="GotoTaskDto" nillable="true" type="tns:GotoTaskDto" />
+  <xs:complexType name="LiftTaskDto">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MissionTaskDto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PortId" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LiftTaskDto" nillable="true" type="tns:LiftTaskDto" />
+  <xs:complexType name="ArrayOfMissionInfoDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MissionInfoDto" nillable="true" type="tns:MissionInfoDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMissionInfoDto" nillable="true" type="tns:ArrayOfMissionInfoDto" />
+  <xs:complexType name="MissionInfoDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgvId" type="xs:int" />
+      <xs:element minOccurs="0" name="MissionId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MissionInfoDto" nillable="true" type="tns:MissionInfoDto" />
+  <xs:complexType name="LocationDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Heading" type="xs:double" />
+      <xs:element minOccurs="0" name="X" type="xs:double" />
+      <xs:element minOccurs="0" name="Y" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LocationDto" nillable="true" type="tns:LocationDto" />
+  <xs:complexType name="ArrayOfStorageStateDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StorageStateDto" nillable="true" type="tns:StorageStateDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStorageStateDto" nillable="true" type="tns:ArrayOfStorageStateDto" />
+  <xs:complexType name="StorageStateDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CargoId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StorageLocationDescription" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StorageStateDto" nillable="true" type="tns:StorageStateDto" />
+  <xs:complexType name="AgvStateDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgvId" type="xs:int" />
+      <xs:element minOccurs="0" name="MainStateDto" type="tns:MainStateDto" />
+      <xs:element minOccurs="0" name="OperationStateDto" type="tns:OperationStateDto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AgvStateDto" nillable="true" type="tns:AgvStateDto" />
+  <xs:simpleType name="MainStateDto">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Disabled" />
+      <xs:enumeration value="ReservedByOperator" />
+      <xs:enumeration value="OnMission" />
+      <xs:enumeration value="Docking" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MainStateDto" nillable="true" type="tns:MainStateDto" />
+  <xs:simpleType name="OperationStateDto">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Idle" />
+      <xs:enumeration value="Moving" />
+      <xs:enumeration value="Handling" />
+      <xs:enumeration value="Error" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="OperationStateDto" nillable="true" type="tns:OperationStateDto" />
+  <xs:complexType name="AgvMissionStateDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActualRunningTaskIndex" type="xs:int" />
+      <xs:element minOccurs="0" name="AgvId" type="xs:int" />
+      <xs:element minOccurs="0" name="MissionId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NumberOfCompletedTasks" type="xs:int" />
+      <xs:element minOccurs="0" name="NumberOfTasks" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AgvMissionStateDto" nillable="true" type="tns:AgvMissionStateDto" />
+</xs:schema>

@@ -1,0 +1,28 @@
+﻿<Window x:Class="TibcoAGVC.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TibcoAGVC"
+        xmlns:lib="clr-namespace:JxSystem.Wpf;assembly=JxSystem.Wpf"
+        mc:Ignorable="d"
+        Title="CLT-AGVC" Height="450" Width="800" Closing="OnApplicationShutdown" ResizeMode="CanMinimize" WindowState="Maximized" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Border Style="{StaticResource {x:Static lib:JxCustomResources.DefaultBorderKey}}" Grid.Row="1">
+            <TabControl Style="{StaticResource {x:Static lib:JxCustomResources.DefaultTabControlKey}}" Margin="0">
+                <TabItem Header="Overview">
+                    <local:Overview/>
+                </TabItem>
+                <TabItem Header="APP Log">
+                    <local:AppLoggerView/>
+                </TabItem>
+            </TabControl>
+        </Border>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Button Name="btnGetLoadPortMessage" Content="QueryLoadPortEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetLoadPortMessage_Click"/>
+            <Button Name="btnGetOutStockerMessage" Content="QueryOutStockerEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetOutStockerMessage_Click"/>
+            <Button Name="btnGetJobPrepareMessage" Content="QueryJobPrepareEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetJobPrepareMessage_Click"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>

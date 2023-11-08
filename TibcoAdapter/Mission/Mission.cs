@@ -5,19 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TibcoAGVC
+namespace TibcoAdapter
 {
     public class Mission : JxBindingBase
     {
-        public Mission(string missionId, List<MissionTask> tasks)
+        public Mission(string missionId, List<MissionTask> tasks, Agv assignAgv)
         {
+            AssignAgv = assignAgv;
             MissionId = missionId;
-            Tasks = tasks.ToList();
+            MissionTasks = tasks.ToList();
         }
 
         public string MissionId { get; }
 
-        public List<MissionTask> Tasks { get; }
+        public Agv AssignAgv { get; }
+
+        public List<MissionTask> MissionTasks { get; }
 
         private MissionStatus status;
 

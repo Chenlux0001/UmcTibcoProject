@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AgvManager.cs" />
     <Compile Include="AgvTaskManager\AgvTaskExecutor.cs" />
     <Compile Include="AgvTaskManager\AgvTaskManager.cs" />
     <Compile Include="App.xaml.cs">
@@ -102,16 +103,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CoreModulesManager.cs" />
-    <Compile Include="Agv.cs" />
-    <Compile Include="Mission\DropTask.cs" />
-    <Compile Include="Mission\Mission.cs" />
-    <Compile Include="Mission\MissionStatus.cs" />
-    <Compile Include="Mission\MissionTask.cs" />
-    <Compile Include="Mission\MissionTaskStatus.cs" />
+    <Compile Include="MissionFactory.cs" />
+    <Compile Include="TibcoEventManager.cs" />
     <Compile Include="Views\Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Mission\PickTask.cs" />
     <Compile Include="McsLite\McsLiteTcpClient.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\AppLoggerView.xaml.cs">
@@ -208,6 +204,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TibcoAdapter\TibcoAdapter.csproj">
+      <Project>{995DD2BD-3054-4244-A14C-E341F0D57E4C}</Project>
+      <Name>TibcoAdapter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

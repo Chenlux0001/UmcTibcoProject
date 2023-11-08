@@ -12,7 +12,7 @@ namespace TibcoMcsLite
     public class TibcoAdapter : ITibcoAdapter
     {
         public event EventHandler<string> OnListenLoadPortEvent;
-        public event EventHandler<string> OnListenOutStockerEvent;
+        public event EventHandler<string> OnListenStockerEvent;
         public event EventHandler<string> OnListenJobPrepareEvent;
 
         public string QueryJobPrepareEvent()
@@ -31,7 +31,7 @@ namespace TibcoMcsLite
             return readToLoad;
         }
 
-        public string QueryOutStockerEvent()
+        public string QueryStockerEvent()
         {
             return "OUTSTK TID=64758 msgTag=TRANSSRVdefault CARID=BP0318F TO=STK215 PORT=STK215_4FMO1";
         }
@@ -45,7 +45,7 @@ namespace TibcoMcsLite
 
         public void SendOutStockerMessage(string tibcoMessage)
         {
-            OnListenOutStockerEvent?.Invoke(this, tibcoMessage);
+            OnListenStockerEvent?.Invoke(this, tibcoMessage);
         }
 
         public void SendJobPrepareMessage(string tibcoMessage)

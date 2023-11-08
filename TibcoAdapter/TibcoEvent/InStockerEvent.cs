@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TibcoAdapter
 {
-    public class OutStockerEvent : TibcoEvent
+    public class InStockerEvent : TibcoEvent
     {
-        public OutStockerEvent(string message) : base(TibcoEventType.OutStocker, message)
+        public InStockerEvent(string message) : base(TibcoEventType.InStocker, message)
         {
             // TODO: Set Properties
         }

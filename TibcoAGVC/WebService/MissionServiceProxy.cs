@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TibcoAdapter;
 using TibcoAGVC.ServiceReference1;
 
 namespace TibcoAGVC
@@ -17,14 +18,17 @@ namespace TibcoAGVC
 
         private readonly object syncRoot = new object();
 
+        private readonly AgvManager agvManager;
+
         private readonly string missionServiceUri;
 
         private readonly string mssionResponseServiceUri;
 
         private readonly MissionServiceClient missionServiceClient;
 
-        public MissionServiceProxy(MainViewModel mainViewModel, string missionServiceUri, string mssionResponseServiceUri) : base(3000)
+        public MissionServiceProxy(AgvManager agvManager, MainViewModel mainViewModel, string missionServiceUri, string mssionResponseServiceUri) : base(3000)
         {
+            this.agvManager = agvManager;
             this.mainViewModel = mainViewModel;
             this.missionServiceUri = missionServiceUri;
             this.mssionResponseServiceUri = mssionResponseServiceUri;
@@ -69,6 +73,8 @@ namespace TibcoAGVC
             return false;
         }
 
+        public bool MrmsWebIsReachable { get; set; }
+
         public void InvokeMissionTasks(string missionId, List<MissionTaskDto> missionTaskDtos)
         {
             missionServiceClient.InvokeMissionTasks(missionId, missionTaskDtos.ToArray());
@@ -80,10 +86,21 @@ namespace TibcoAGVC
             {
                 if (this.mainViewModel != null)
                 {
-                    if (!this.mainViewModel.MrmsWebIsReachable)
+                    if (!this.MrmsWebIsReachable)
                     {
                         // ConnectToService
-                        this.mainViewModel.MrmsWebIsReachable = ConnectToService();
+                        this.MrmsWebIsReachable = ConnectToService();
+                        this.mainViewModel.MrmsWebIsReachable = this.MrmsWebIsReachable;
+
+                        if (this.MrmsWebIsReachable)
+                        {
+                            var agvIds = missionServiceClient.GetAgvIds().ToList();
+                            foreach (var agvId in agvIds)
+                            {
+                                if (agvManager.GetAgvById(agvId) == null)
+                                    agvManager.AddAgv(new Agv(agvId));
+                            }
+                        }
                     }
                     else
                     {
@@ -94,7 +111,8 @@ namespace TibcoAGVC
             }
             catch (Exception ex)
             {
-                this.mainViewModel.MrmsWebIsReachable = false;
+                this.MrmsWebIsReachable = false;
+                this.mainViewModel.MrmsWebIsReachable = this.MrmsWebIsReachable;
 
                 LoggerEventDispatcher.Error($"MissionServiceProxy | Execute | Exception: {ex.Message}");
 

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace TibcoAdapter
 {
-    public class McsDropTask
+    public enum MissionStatus
     {
-        public string CarrierId { get; set; }
-
-        public string Goal { get; set; }
-
-        public string Port { get; set; }
+        Pending,
+        Running,
+        Completed
     }
 }

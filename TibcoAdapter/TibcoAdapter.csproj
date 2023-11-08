@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JxSystem.Core">
+      <HintPath>..\TibcoAGVC\Lib\JxSystem.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,9 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agv.cs" />
+    <Compile Include="Mission\DropTask.cs" />
+    <Compile Include="Mission\GotoTask.cs" />
+    <Compile Include="Mission\Mission.cs" />
+    <Compile Include="Mission\MissionStatus.cs" />
+    <Compile Include="Mission\MissionTask.cs" />
+    <Compile Include="Mission\MissionTaskStatus.cs" />
+    <Compile Include="Mission\PickTask.cs" />
+    <Compile Include="PrepareTransfer.cs" />
+    <Compile Include="TibcoEventType.cs" />
+    <Compile Include="TibcoEvent\InStockerEvent.cs" />
     <Compile Include="ITibcoAdapter.cs" />
-    <Compile Include="McsDropTask.cs" />
-    <Compile Include="McsPickTask.cs" />
     <Compile Include="TibcoLib.cs" />
     <Compile Include="TibcoEvent\JobPrepareEvent.cs" />
     <Compile Include="TibcoEvent\LoadPortEvent.cs" />
@@ -52,7 +64,6 @@
     <Compile Include="Tcp\TcpComClient.cs" />
     <Compile Include="Tcp\TcpServer.cs" />
     <Compile Include="TibcoEvent\TibcoEvent.cs" />
-    <Compile Include="McsTransfer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

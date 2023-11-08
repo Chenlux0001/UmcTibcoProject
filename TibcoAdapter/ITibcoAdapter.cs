@@ -16,11 +16,11 @@ namespace TibcoAdapter
 
         #endregion
 
-        #region MCS (Stocker)
+        #region MCS (In/Out Stocker)
 
-        event EventHandler<string> OnListenOutStockerEvent;
+        event EventHandler<string> OnListenStockerEvent;
 
-        string QueryOutStockerEvent();
+        string QueryStockerEvent();
 
         #endregion
 

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace TibcoAdapter
 {
-    public class McsPickTask
+    public class GotoTask : MissionTask
     {
-        public string CarrierId { get; set; }
-
-        public string Goal { get; set; }
-
-        public string Port { get; set; }
+        public GotoTask(int taskIndex, string goal, string port) : base(taskIndex, goal, port)
+        {
+        }
     }
 }

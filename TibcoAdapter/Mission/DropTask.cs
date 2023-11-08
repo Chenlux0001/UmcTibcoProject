@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TibcoAGVC
+namespace TibcoAdapter
 {
-    public class PickTask : MissionTask
+    public class DropTask : MissionTask
     {
-        public PickTask(int taskIndex, string goal, string port, string carrierId) : base(taskIndex, goal, port)
+        public DropTask(int taskIndex, string goal, string port, string carrierId) : base(taskIndex, goal, port)
         {
             CarrierId = carrierId;
         }

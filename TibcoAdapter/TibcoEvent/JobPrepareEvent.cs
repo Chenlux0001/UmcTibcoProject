@@ -8,8 +8,15 @@ namespace TibcoAdapter
 {
     public class JobPrepareEvent : TibcoEvent
     {
-        public JobPrepareEvent(string message) : base(message)
+        public JobPrepareEvent(string message) : base(TibcoEventType.JobPrepare, message)
         {
+        }
+
+        public PrepareTransfer ToPrepareTransfer()
+        {
+            // TODO:
+
+            return null;
         }
     }
 }

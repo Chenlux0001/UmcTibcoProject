@@ -7,22 +7,26 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using TibcoAdapter;
 
 namespace TibcoAGVC
 {
     public class McsLiteTcpClient : ITcpClientHandler
     {
         private readonly JxTcpClient tcpClient;
+        private readonly TibcoEventManager tibcoEventManager;
 
-        public McsLiteTcpClient(IPEndPoint remoteEndPoint)
+        public McsLiteTcpClient(IPEndPoint remoteEndPoint, TibcoEventManager tibcoEventManager)
         {
+            this.tibcoEventManager = tibcoEventManager;
+
             tcpClient = new JxTcpClient(remoteEndPoint, this, 1024, 1024, true);
             tcpClient.OnException += TcpClient_OnException;
         }
 
         private void TcpClient_OnException(object sender, Exception e)
         {
-            LoggerEventDispatcher.Error($"TibcoAdapterProxy | TcpClient | Exception: {e}");
+            LoggerEventDispatcher.Error($"McsLiteTcpClient | OnException | Exception: {e}");
         }
 
         public void Connect()
@@ -37,22 +41,22 @@ namespace TibcoAGVC
 
         public void NotifyConnectFailure(JxTcpClient tcpClient, NotifySocketConnectFailureEventArgs e)
         {
-            LoggerEventDispatcher.Error($"TibcoAdapterProxy | NotifyConnectFailure: {e.RemoteAddress}:{e.RemotePort}");
+            LoggerEventDispatcher.Error($"McsLiteTcpClient | NotifyConnectFailure: {e.RemoteAddress}:{e.RemotePort}");
         }
 
         public void NotifyConnecting(JxTcpClient tcpClient, NotifySocketConnectingEventArgs e)
         {
-            LoggerEventDispatcher.Info($"TibcoAdapterProxy | NotifyConnecting: {e.RemoteAddress}:{e.RemotePort}");
+            LoggerEventDispatcher.Info($"McsLiteTcpClient | NotifyConnecting: {e.RemoteAddress}:{e.RemotePort}");
         }
 
         public void NotifyConnectSuccess(JxTcpClient tcpClient, NotifySocketConnectSuccessEventArgs e)
         {
-            LoggerEventDispatcher.Info($"TibcoAdapterProxy | NotifyConnectSuccess: {e.RemoteAddress}:{e.RemotePort}");
+            LoggerEventDispatcher.Info($"McsLiteTcpClient | NotifyConnectSuccess: {e.RemoteAddress}:{e.RemotePort}");
         }
 
         public void NotifyReceiveServerDisconnected(JxTcpClient tcpClient, NotifyReceiveSocketDisconnectedEventArgs e)
         {
-            LoggerEventDispatcher.Error($"TibcoAdapterProxy | NotifyReceiveServerDisconnected: {e.RemoteAddress}:{e.RemotePort}");
+            LoggerEventDispatcher.Error($"McsLiteTcpClient | NotifyReceiveServerDisconnected: {e.RemoteAddress}:{e.RemotePort}");
         }
 
         public void NotifyReceiveServerMessage(JxTcpClient tcpClient, NotifyReceiveSocketMessageEventArgs e)
@@ -62,18 +66,30 @@ namespace TibcoAGVC
             {
                 if (tcpClient.Receive(headerLength, out byte[] headerBuffer))
                 {
-                    int dataType = BitConverter.ToInt32(headerBuffer, 0);
+                    TibcoEventType tibcoEventType = (TibcoEventType)BitConverter.ToInt32(headerBuffer, 0);
                     int messageLength = BitConverter.ToInt32(headerBuffer, sizeof(int));
                     if (messageLength > 0)
                     {
-                        // Data Type:
-                        // 1: LoadPortMessage
-                        // 2: OutStockerMessage
-                        // 3: JobPrepareMessage
                         if (tcpClient.Receive(messageLength, out byte[] messageBuffer))
                         {
                             string tibcoMessage = Encoding.Default.GetString(messageBuffer, 0, messageLength);
-                            LoggerEventDispatcher.Info($"TibcoAdapterProxy | NotifyReceiveServerMessage: {tibcoMessage}");
+                            LoggerEventDispatcher.Info($"McsLiteTcpClient | NotifyReceiveServerMessage | TibcoEventType: {tibcoEventType} , TibcoMessage: {tibcoMessage}");
+
+                            switch(tibcoEventType)
+                            {
+                                case TibcoEventType.JobPrepare:
+                                    tibcoEventManager.AddEvent(new JobPrepareEvent(tibcoMessage));
+                                    break;
+                                case TibcoEventType.InStocker:
+                                    tibcoEventManager.AddEvent(new InStockerEvent(tibcoMessage));
+                                    break;
+                                case TibcoEventType.OutStocker:
+                                    tibcoEventManager.AddEvent(new OutStockerEvent(tibcoMessage));
+                                    break;
+                                case TibcoEventType.LoadPort:
+                                    tibcoEventManager.AddEvent(new LoadPortEvent(tibcoMessage));
+                                    break;
+                            }
                         }
                     }
                 }

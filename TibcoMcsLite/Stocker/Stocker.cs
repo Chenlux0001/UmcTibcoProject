@@ -9,6 +9,19 @@ namespace TibcoMcsLite
 {
     public class Stocker : JxBindingBase
     {
+        private StockerStatus status;
+
+        public StockerStatus Status
+        {
+            get
+            {
+                return status;
+            }
+            set
+            {
+                SetPropertyValue(ref status, value);
+            }
+        }
 
     }
 }

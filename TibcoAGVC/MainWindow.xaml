@@ -10,9 +10,9 @@
     <Grid>
         <Border Style="{StaticResource {x:Static lib:JxCustomResources.DefaultBorderKey}}" Grid.Row="1">
             <TabControl Style="{StaticResource {x:Static lib:JxCustomResources.DefaultTabControlKey}}" Margin="0">
-                <TabItem Header="Overview">
+                <!--<TabItem Header="Overview">
                     <local:Overview/>
-                </TabItem>
+                </TabItem>-->
                 <TabItem Header="APP Log">
                     <local:AppLoggerView/>
                 </TabItem>

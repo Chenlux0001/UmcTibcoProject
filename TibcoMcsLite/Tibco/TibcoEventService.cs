@@ -24,7 +24,7 @@ namespace TibcoMcsLite
 
             this.tibcoAdapter = tibcoAdapter;
             this.tibcoAdapter.OnListenLoadPortEvent += TibcoAdapter_OnListenLoadPortMessage;
-            this.tibcoAdapter.OnListenOutStockerEvent += TibcoAdapter_OnListenOutStockerMessage;
+            this.tibcoAdapter.OnListenStockerEvent += TibcoAdapter_OnListenOutStockerMessage;
             this.tibcoAdapter.OnListenJobPrepareEvent += TibcoAdapter_OnListenJobPrepareMessage;
 
             this.mcsLiteTcpServer = new JxTcpServer(localEndPoint, this, 1024, 1024);
@@ -60,20 +60,16 @@ namespace TibcoMcsLite
                         {
                             Console.WriteLine($"TibcoMessageService | SendTibcoMessageToClient | Send TibcoMessage Success: {firstEvent.Message}");
 
-                            byte[] messageBuffer = Encoding.Default.GetBytes(firstEvent.Message);
-                            byte[] sendBuffer = new byte[sizeof(int) + sizeof(int) + messageBuffer.Length];
-                            // Data Type
-                            if (firstEvent is LoadPortEvent)
-                                Buffer.BlockCopy(BitConverter.GetBytes(1), 0, sendBuffer, 0, sizeof(int));
-                            else if (firstEvent is OutStockerEvent)
-                                Buffer.BlockCopy(BitConverter.GetBytes(2), 0, sendBuffer, 0, sizeof(int));
-                            else if (firstEvent is JobPrepareEvent)
-                                Buffer.BlockCopy(BitConverter.GetBytes(3), 0, sendBuffer, 0, sizeof(int));
-                            // Message Length
-                            Buffer.BlockCopy(BitConverter.GetBytes(messageBuffer.Length), 0, sendBuffer, sizeof(int), sizeof(int));
-                            // Message
-                            Buffer.BlockCopy(messageBuffer, 0, sendBuffer, sizeof(int) * 2, messageBuffer.Length);
-
+                            byte[] eventMessageBuffer = Encoding.Default.GetBytes(firstEvent.Message);
+                            byte[] sendBuffer = new byte[sizeof(int) + sizeof(int) + eventMessageBuffer.Length];
+                            // Event Type
+                            Buffer.BlockCopy(BitConverter.GetBytes((int)firstEvent.EventType), 0, sendBuffer, 0, sizeof(int));
+                            // Data Length
+                            Buffer.BlockCopy(BitConverter.GetBytes(eventMessageBuffer.Length), 0, sendBuffer, sizeof(int), sizeof(int));
+                            // Event Message
+                            Buffer.BlockCopy(eventMessageBuffer, 0, sendBuffer, sizeof(int) * 2, eventMessageBuffer.Length);
+                            
+                            // Send Message
                             mcsLiteTcpServer.Broadcast(sendBuffer, 0, sendBuffer.Length);
                         }
                         catch (Exception ex)
@@ -140,7 +136,7 @@ namespace TibcoMcsLite
                             }
                             else if (command == "QueryOutStockerEvent")
                             {
-                                string outStockerMessage = tibcoAdapter.QueryOutStockerEvent();
+                                string outStockerMessage = tibcoAdapter.QueryStockerEvent();
                                 tibcoEventList.Add(new OutStockerEvent(outStockerMessage));
                             }
                             else if (command == "QueryJobPrepareEvent")

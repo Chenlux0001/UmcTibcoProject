@@ -15,9 +15,14 @@ namespace TibcoAGVC
     {
         private readonly MainViewModel mainViewModel;
 
-        public MissionResponseService(MainViewModel mainViewModel)
+        private readonly AgvTaskManager agvTaskManager;
+        private readonly MissionServiceProxy missionServiceProxy;
+
+        public MissionResponseService(MissionServiceProxy missionServiceProxy, AgvTaskManager agvTaskManager, MainViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
+            this.agvTaskManager = agvTaskManager;
+            this.missionServiceProxy = missionServiceProxy;
         }
 
         public void InvokeLoadRequest(string goal, string port, int agvId)
@@ -127,7 +132,9 @@ namespace TibcoAGVC
 
         public void ResponseHeartBeat()
         {
-            this.mainViewModel.MrmsWebIsReachable = true;
+            missionServiceProxy.MrmsWebIsReachable = true;
+
+            this.mainViewModel.MrmsWebIsReachable = missionServiceProxy.MrmsWebIsReachable;
         }
 
         public void SendSmartTag(string missionId, int taskIndex, RobotPodPositionDto robotPodPosition, string tag)

@@ -12,17 +12,39 @@ namespace TibcoAGVC
 {
     public static class CoreModulesManager
     {
+        private static AgvManager agvManager;
+        private static AgvTaskManager agvTaskManager;
+        private static TibcoEventManager tibcoEventManager;
+        private static MissionServiceProxy missionServiceProxy;
         private static MissionResponseService missionResponseService;
         private static WcfServiceHost<IMissionResponseService> missionResponseServiceHost;
+
+        public static McsLiteTcpClient McsLiteTcpClient { get; private set; }
 
         public static void Initialize(MainViewModel mainViewModel)
         {
             LoggerEventDispatcher.Start();
 
-            #region MissionResponseService
+            tibcoEventManager = new TibcoEventManager();
+
+            agvManager = new AgvManager();
+
+            agvTaskManager = new AgvTaskManager(missionServiceProxy, tibcoEventManager, new MissionFactory(agvManager, tibcoEventManager));
+            agvTaskManager.Start();
 
             string mssionResponseServiceUri = @"http://127.0.0.1:40006/MissionResponseService";
-            missionResponseService = new MissionResponseService(mainViewModel);
+
+            #region MissionServiceClient
+
+            string missionServiceUri = @"http://127.0.0.1:40005/MissionService";
+            missionServiceProxy = new MissionServiceProxy(agvManager, mainViewModel, missionServiceUri, mssionResponseServiceUri);
+            missionServiceProxy.Start();
+
+            #endregion
+
+            #region MissionResponseService
+
+            missionResponseService = new MissionResponseService(missionServiceProxy, agvTaskManager, mainViewModel);
             var binding = WcfBindings.GetBasicHttpBinding(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5), 2000000);
             binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
             binding.Security.Mode = BasicHttpSecurityMode.None;
@@ -33,34 +55,25 @@ namespace TibcoAGVC
 
             #endregion
 
-            #region MissionServiceClient
-
-            //string missionServiceUri = @"http://127.0.0.1:40005/MissionService";
-            //MissionServiceProxy = new MissionServiceProxy(mainViewModel, missionServiceUri, mssionResponseServiceUri);
-            //MissionServiceProxy.Start();
-
-            #endregion
-
             #region McsLiteTcpClient
 
             IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000);
-            McsLiteTcpClient = new McsLiteTcpClient(remoteEndPoint);
+            McsLiteTcpClient = new McsLiteTcpClient(remoteEndPoint, tibcoEventManager);
             McsLiteTcpClient.Connect();
 
             #endregion
         }
-
-        public static McsLiteTcpClient McsLiteTcpClient { get; private set; }
-
-        public static MissionServiceProxy MissionServiceProxy { get; private set; }
 
         public static void Shutdown()
         {
             if (McsLiteTcpClient != null)
                 McsLiteTcpClient.Disconnect();
 
-            if (MissionServiceProxy != null)
-                MissionServiceProxy.Stop();
+            if (missionServiceProxy != null)
+                missionServiceProxy.Stop();
+
+            if (agvTaskManager != null)
+                agvTaskManager.Stop();
 
             LoggerEventDispatcher.Stop();
         }

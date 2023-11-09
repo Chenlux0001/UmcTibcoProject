@@ -10,25 +10,13 @@ namespace TibcoAdapter
     {
         public LoadPortEvent(string message) : base(TibcoEventType.LoadPort, message)
         {
-            // TODO: Set Properties
-            // Eqp
-            // Port
-            // IsReadyToLoad
-            // IsReadyToUnload
-            // IsLoadComplete
-            // IsUnloadComplete
+
         }
 
-        public string Eqp { get; }
+        public override string CarrierId => throw new NotImplementedException();
 
-        public string Port { get; }
+        public override string Goal => throw new NotImplementedException();
 
-        public bool IsReadyToLoad { get; }
-
-        public bool IsReadyToUnload { get; }
-
-        public bool IsLoadComplete { get; }
-
-        public bool IsUnloadComplete { get; }
+        public override string Port => throw new NotImplementedException();
     }
 }

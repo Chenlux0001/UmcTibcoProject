@@ -8,21 +8,29 @@ namespace TibcoAdapter
 {
     public class PrepareTransfer
     {
-        public PrepareTransfer(string carrierId, PickTask pickTask, DropTask dropTask)
+        private readonly List<TibcoEvent> tibcoEventList;
+
+        public PrepareTransfer(string carrierId)
         {
-            PickTask = pickTask;
-            DropTask = dropTask;
             CarrierId = carrierId;
+
+            CreateTime = DateTime.Now;
+
+            tibcoEventList = new List<TibcoEvent>();
         }
 
         public string CarrierId { get; }
 
-        public PickTask PickTask { get; }
+        public DateTime CreateTime { get; }
 
-        public DropTask DropTask { get; }
+        public void AddEvent(TibcoEvent tibcoEvent)
+        {
+            tibcoEventList.Add(tibcoEvent);
+        }
 
-        public bool IsPickReady { get; set; }
-
-        public bool IsDropReady { get; set; }
+        public Mission ConvertToMission()
+        {
+            return null;
+        }
     }
 }

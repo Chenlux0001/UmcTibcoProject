@@ -12,11 +12,10 @@ namespace TibcoAdapter
         {
         }
 
-        public PrepareTransfer ToPrepareTransfer()
-        {
-            // TODO:
+        public override string CarrierId => throw new NotImplementedException();
 
-            return null;
-        }
+        public override string Goal => throw new NotImplementedException();
+
+        public override string Port => throw new NotImplementedException();
     }
 }

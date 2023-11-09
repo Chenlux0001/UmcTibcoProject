@@ -29,9 +29,12 @@ namespace TibcoAGVC
             return tibcoEventList.Remove(tibcoEvent);
         }
 
-        public List<T> OfType<T>() where T : TibcoEvent
-        {
-            return tibcoEventList.ToList().OfType<T>().ToList();
+        public List<TibcoEvent> AllEvents 
+        { 
+            get
+            {
+                return tibcoEventList.ToList();
+            }
         }
     }
 }

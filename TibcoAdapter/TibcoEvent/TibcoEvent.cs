@@ -17,5 +17,11 @@ namespace TibcoAdapter
         public TibcoEventType EventType { get; }
 
         public string Message { get; }
+
+        public abstract string CarrierId { get; }
+
+        public abstract string Goal { get; }
+
+        public abstract string Port { get; }
     }
 }

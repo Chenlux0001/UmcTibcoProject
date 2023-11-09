@@ -10,11 +10,13 @@ namespace TibcoAdapter
     {
         public OutStockerEvent(string message) : base(TibcoEventType.OutStocker, message)
         {
-            // TODO: Set Properties
+
         }
 
-        public string Stocker { get; }
+        public override string CarrierId => throw new NotImplementedException();
 
-        public string Port { get; }
+        public override string Goal => throw new NotImplementedException();
+
+        public override string Port => throw new NotImplementedException();
     }
 }

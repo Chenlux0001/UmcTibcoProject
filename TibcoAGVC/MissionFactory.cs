@@ -22,97 +22,43 @@ namespace TibcoAGVC
             this.prepareTransferDictionary = new ConcurrentDictionary<string, PrepareTransfer>();
         }
 
-        private void JobPrepareEventToPrepareTransfer()
-        {
-            var jobPrepareEvents = tibcoEventManager.OfType<JobPrepareEvent>().ToList();
-            foreach (var jobPrepareEvent in jobPrepareEvents)
-            {
-                PrepareTransfer prepareTransfer = jobPrepareEvent.ToPrepareTransfer();
-                if (prepareTransfer != null)
-                {
-                    if (!prepareTransferDictionary.TryGetValue(prepareTransfer.CarrierId, out PrepareTransfer existPrepareTransfer))
-                    {
-                        prepareTransferDictionary.TryAdd(prepareTransfer.CarrierId, prepareTransfer);
-                    }
-                }
-
-                tibcoEventManager.RemoveEvent(jobPrepareEvent);
-            }
-        }
-
-        private void SetLoadPortEventReadyFlagOnTransfer()
-        {
-            var loadPortEvents = tibcoEventManager.OfType<LoadPortEvent>().ToList();
-            foreach (var loadPortEvent in loadPortEvents)
-            {
-                if (loadPortEvent.IsReadyToLoad)
-                {
-                    var transfer = prepareTransferDictionary.Values.ToList().Where(x => x.DropTask.Goal == loadPortEvent.Eqp && x.DropTask.Port == loadPortEvent.Port).FirstOrDefault();
-                    if (transfer != null)
-                        transfer.IsDropReady = true;
-                }
-                else if (loadPortEvent.IsReadyToUnload)
-                {
-                    var transfer = prepareTransferDictionary.Values.ToList().Where(x => x.PickTask.Goal == loadPortEvent.Eqp && x.PickTask.Port == loadPortEvent.Port).FirstOrDefault();
-                    if (transfer != null)
-                        transfer.IsPickReady = true;
-                }
-                else if (loadPortEvent.IsLoadComplete)
-                {
-                    // TODO:
-                }
-                else if (loadPortEvent.IsUnloadComplete)
-                {
-                    // TODO:
-                }
-
-                tibcoEventManager.RemoveEvent(loadPortEvent);
-            }
-        }
-
-        private void SetInStockerFlagOnTransfer()
-        {
-            var inStockerEvents = tibcoEventManager.OfType<InStockerEvent>().ToList();
-            foreach (var inStockerEvent in inStockerEvents)
-            {
-                var transfer = prepareTransferDictionary.Values.ToList().Where(x => x.DropTask.Goal == inStockerEvent.Stocker && x.DropTask.Port == inStockerEvent.Port).FirstOrDefault();
-                if (transfer != null)
-                    transfer.IsDropReady = true;
-
-                tibcoEventManager.RemoveEvent(inStockerEvent);
-            }
-        }
-
-        private void SetOutStockerFlagOnTransfer()
-        {
-            var outStockerEvents = tibcoEventManager.OfType<OutStockerEvent>().ToList();
-            foreach (var outStockerEvent in outStockerEvents)
-            {
-                var transfer = prepareTransferDictionary.Values.ToList().Where(x => x.PickTask.Goal == outStockerEvent.Stocker && x.PickTask.Port == outStockerEvent.Port).FirstOrDefault();
-                if (transfer != null)
-                    transfer.IsPickReady = true;
-
-                tibcoEventManager.RemoveEvent(outStockerEvent);
-            }
-        }
-
         public Mission CreateMission()
         {
-            // (1) JobPrepareEvent To PrepareTransfer
-            JobPrepareEventToPrepareTransfer();
+            #region Distribute TibcoEvent On PrepareTransfer By CarrierId
 
-            // (2) Set LoadPort ReayToLoad & ReayToUnload Flag
-            SetLoadPortEventReadyFlagOnTransfer();
+            var tibcoEvents = tibcoEventManager.AllEvents.ToList();
+            foreach (var tibcoEvent in tibcoEvents)
+            {
+                if (!prepareTransferDictionary.ContainsKey(tibcoEvent.CarrierId))
+                    prepareTransferDictionary.TryAdd(tibcoEvent.CarrierId, new PrepareTransfer(tibcoEvent.CarrierId));
 
-            // (3) Set InStocker Flag
-            SetInStockerFlagOnTransfer();
+                prepareTransferDictionary[tibcoEvent.CarrierId].AddEvent(tibcoEvent);
 
-            // (4) Set OutStocker Flag
-            SetOutStockerFlagOnTransfer();
+                tibcoEventManager.RemoveEvent(tibcoEvent);
+            }
 
-            var readyTransfers = prepareTransferDictionary.Values.ToList().Where(x => x.IsPickReady == true && x.IsDropReady == true).ToList();
+            #endregion
 
-            // TODO: Create Mission
+            #region Convert PrepareTransfer To Mission
+
+            var prepareTransfers = prepareTransferDictionary.Values.ToList();
+            foreach (var prepareTransfer in prepareTransfers)
+            {
+                if (DateTime.Now.Subtract(prepareTransfer.CreateTime).TotalHours >= 3)
+                {
+                    prepareTransferDictionary.TryRemove(prepareTransfer.CarrierId, out PrepareTransfer existPrepareTransfer);
+                    continue;
+                }
+
+                var mission = prepareTransfer.ConvertToMission();
+                if (mission != null)
+                {
+                    if (prepareTransferDictionary.TryRemove(prepareTransfer.CarrierId, out PrepareTransfer existPrepareTransfer))
+                        return mission;
+                }
+            }
+
+            #endregion
 
             return null;
         }

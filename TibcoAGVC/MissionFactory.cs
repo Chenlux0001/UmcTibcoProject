@@ -22,7 +22,7 @@ namespace TibcoAGVC
             this.prepareTransferDictionary = new ConcurrentDictionary<string, PrepareTransfer>();
         }
 
-        public Mission CreateMission()
+        public Mission CreateMission(Agv agv)
         {
             #region Distribute TibcoEvent On PrepareTransfer By CarrierId
 
@@ -50,7 +50,7 @@ namespace TibcoAGVC
                     continue;
                 }
 
-                var mission = prepareTransfer.ConvertToMission();
+                var mission = prepareTransfer.ConvertToMission(agv);
                 if (mission != null)
                 {
                     if (prepareTransferDictionary.TryRemove(prepareTransfer.CarrierId, out PrepareTransfer existPrepareTransfer))

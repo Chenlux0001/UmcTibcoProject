@@ -16,12 +16,14 @@ namespace TibcoAGVC
         private readonly MainViewModel mainViewModel;
 
         private readonly AgvTaskManager agvTaskManager;
+        private readonly MissionManager missionManager;
         private readonly MissionServiceProxy missionServiceProxy;
 
-        public MissionResponseService(MissionServiceProxy missionServiceProxy, AgvTaskManager agvTaskManager, MainViewModel mainViewModel)
+        public MissionResponseService(MissionManager missionManager, MissionServiceProxy missionServiceProxy, AgvTaskManager agvTaskManager, MainViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
             this.agvTaskManager = agvTaskManager;
+            this.missionManager = missionManager;
             this.missionServiceProxy = missionServiceProxy;
         }
 
@@ -42,7 +44,19 @@ namespace TibcoAGVC
 
         public void NotifyAbortMission(string missionId, AbortMissionResponseCodeDto abortMissionResponseCodeDto)
         {
+            if (abortMissionResponseCodeDto == AbortMissionResponseCodeDto.Successful)
+            {
+                var mission = missionManager.GetMission(missionId);
+                if (mission != null)
+                {
+                    missionManager.RemoveMission(mission);
 
+                    if (agvTaskManager.HasTask(mission.AssignAgv, out AgvTaskExecutor agvTaskExecutor))
+                    {
+                        agvTaskManager.Remove(mission.AssignAgv);
+                    }
+                }
+            }
         }
 
         public void NotifyAgvModeChanged(int agvId, AgvModeDto mode)
@@ -102,12 +116,16 @@ namespace TibcoAGVC
 
         public void NotifyMissionAssignment(string missionId, int agvId)
         {
-
+            LoggerEventDispatcher.Info($"MissionResponseService | NotifyMissionAssignment | MissionId: {missionId} , AgvId: {agvId}");
         }
 
         public void NotifyMissionCompleted(string missionId, bool successflag)
         {
+            LoggerEventDispatcher.Info($"MissionResponseService | NotifyMissionCompleted | MissionId: {missionId}");
 
+            var mission = missionManager.GetMission(missionId);
+            if (mission != null)
+                missionManager.RemoveMission(mission);
         }
 
         public void NotifyMissionTaskStarted(string missionId, int taskIndex)

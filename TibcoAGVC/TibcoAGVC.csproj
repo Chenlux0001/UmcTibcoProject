@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="CoreModulesManager.cs" />
     <Compile Include="MissionFactory.cs" />
+    <Compile Include="MissionManager.cs" />
     <Compile Include="TibcoEventManager.cs" />
     <Compile Include="Views\Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>

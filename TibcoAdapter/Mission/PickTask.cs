@@ -8,11 +8,8 @@ namespace TibcoAdapter
 {
     public class PickTask : MissionTask
     {
-        public PickTask(int taskIndex, string goal, string port, string carrierId) : base(taskIndex, goal, port)
+        public PickTask(int taskIndex, string goal, string port, string carrierId) : base(taskIndex, goal, port, carrierId)
         {
-            CarrierId = carrierId;
         }
-
-        public string CarrierId { get; }
     }
 }

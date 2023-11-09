@@ -10,7 +10,7 @@ namespace TibcoAdapter
     {
         public LoadPortEvent(string message) : base(TibcoEventType.LoadPort, message)
         {
-
+            // TODO: Set Properties
         }
 
         public override string CarrierId => throw new NotImplementedException();

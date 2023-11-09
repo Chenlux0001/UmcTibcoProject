@@ -10,7 +10,7 @@ namespace TibcoAdapter
     {
         public OutStockerEvent(string message) : base(TibcoEventType.OutStocker, message)
         {
-
+            // TODO: Set Properties
         }
 
         public override string CarrierId => throw new NotImplementedException();

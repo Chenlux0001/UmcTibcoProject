@@ -9,10 +9,11 @@ namespace TibcoAdapter
 {
     public class MissionTask : JxBindingBase
     {
-        public MissionTask(int taskIndex, string goal, string port)
+        public MissionTask(int taskIndex, string goal, string port, string carrierId)
         {
             Goal = goal;
             Port = port;
+            CarrierId = carrierId;
             TaskIndex = taskIndex;
         }
 
@@ -21,6 +22,8 @@ namespace TibcoAdapter
         public string Goal { get; }
 
         public string Port { get; }
+
+        public string CarrierId { get; }
 
         private MissionTaskStatus status;
 

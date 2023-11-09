@@ -28,8 +28,10 @@ namespace TibcoAdapter
             tibcoEventList.Add(tibcoEvent);
         }
 
-        public Mission ConvertToMission()
+        public Mission ConvertToMission(Agv agv)
         {
+            // TODO:
+
             return null;
         }
     }

@@ -13,6 +13,7 @@ namespace TibcoAGVC
     public static class CoreModulesManager
     {
         private static AgvManager agvManager;
+        private static MissionManager missionManager;
         private static AgvTaskManager agvTaskManager;
         private static TibcoEventManager tibcoEventManager;
         private static MissionServiceProxy missionServiceProxy;
@@ -29,8 +30,7 @@ namespace TibcoAGVC
 
             agvManager = new AgvManager();
 
-            agvTaskManager = new AgvTaskManager(missionServiceProxy, tibcoEventManager, new MissionFactory(agvManager, tibcoEventManager));
-            agvTaskManager.Start();
+            missionManager = new MissionManager();
 
             string mssionResponseServiceUri = @"http://127.0.0.1:40006/MissionResponseService";
 
@@ -44,7 +44,7 @@ namespace TibcoAGVC
 
             #region MissionResponseService
 
-            missionResponseService = new MissionResponseService(missionServiceProxy, agvTaskManager, mainViewModel);
+            missionResponseService = new MissionResponseService(missionManager, missionServiceProxy, agvTaskManager, mainViewModel);
             var binding = WcfBindings.GetBasicHttpBinding(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5), 2000000);
             binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
             binding.Security.Mode = BasicHttpSecurityMode.None;
@@ -54,6 +54,9 @@ namespace TibcoAGVC
             missionResponseServiceHost.StartService(mssionResponseServiceUri);
 
             #endregion
+
+            agvTaskManager = new AgvTaskManager(agvManager, missionManager, missionServiceProxy, tibcoEventManager, new MissionFactory(agvManager, tibcoEventManager));
+            agvTaskManager.Start();
 
             #region McsLiteTcpClient
 

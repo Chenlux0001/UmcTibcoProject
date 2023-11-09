@@ -8,7 +8,7 @@ namespace TibcoAdapter
 {
     public class GotoTask : MissionTask
     {
-        public GotoTask(int taskIndex, string goal, string port) : base(taskIndex, goal, port)
+        public GotoTask(int taskIndex, string goal, string port, string carrierId) : base(taskIndex, goal, port, carrierId)
         {
         }
     }

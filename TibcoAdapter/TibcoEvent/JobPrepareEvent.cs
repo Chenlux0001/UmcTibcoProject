@@ -10,6 +10,7 @@ namespace TibcoAdapter
     {
         public JobPrepareEvent(string message) : base(TibcoEventType.JobPrepare, message)
         {
+            // TODO: Set Properties
         }
 
         public override string CarrierId => throw new NotImplementedException();

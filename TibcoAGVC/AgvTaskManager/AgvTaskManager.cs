@@ -13,14 +13,18 @@ namespace TibcoAGVC
 {
     public class AgvTaskManager : JxServiceBase
     {
+        private readonly AgvManager agvManager;
         private readonly MissionFactory missionFactory;
+        private readonly MissionManager missionManager;
         private readonly TibcoEventManager tibcoEventManager;
         private readonly MissionServiceProxy missionServiceProxy;
 
         private readonly ConcurrentDictionary<Agv, AgvTaskExecutor> agvTaskExecutorDictionary;
 
-        public AgvTaskManager(MissionServiceProxy missionServiceProxy, TibcoEventManager tibcoEventManager, MissionFactory missionFactory) : base(100)
+        public AgvTaskManager(AgvManager agvManager, MissionManager missionManager, MissionServiceProxy missionServiceProxy, TibcoEventManager tibcoEventManager, MissionFactory missionFactory) : base(100)
         {
+            this.agvManager = agvManager;
+            this.missionManager = missionManager;
             this.missionFactory = missionFactory;
             this.tibcoEventManager = tibcoEventManager;
             this.missionServiceProxy = missionServiceProxy;
@@ -30,8 +34,7 @@ namespace TibcoAGVC
 
         public override bool CanExecute()
         {
-            return true;
-            //return missionServiceProxy.MrmsWebIsReachable;
+            return missionServiceProxy.MrmsWebIsReachable;
         }
 
         public override JxExecutionResult CatchException(object sender, Exception exception)
@@ -77,6 +80,11 @@ namespace TibcoAGVC
             throw new NotImplementedException();
         }
 
+        public void Remove(Agv agv)
+        {
+            agvTaskExecutorDictionary.TryRemove(agv, out AgvTaskExecutor existAgvTaskExecutor);
+        }
+
         public bool HasTask(Agv agv, out AgvTaskExecutor agvTaskExecutor)
         {
             return agvTaskExecutorDictionary.TryGetValue(agv, out agvTaskExecutor);
@@ -84,20 +92,29 @@ namespace TibcoAGVC
 
         public override JxExecutionResult Execute(IService service, CancellationToken cancellationToken)
         {
-            if (!agvTaskExecutorDictionary.Any())
+            var assignAgv = agvManager.AllAgvs.FirstOrDefault();
+            if (assignAgv != null)
             {
-                var mission = missionFactory.CreateMission();
-                if (mission != null && !HasTask(mission.AssignAgv, out AgvTaskExecutor agvTaskExecutor))
+                if (!HasTask(assignAgv, out AgvTaskExecutor agvTaskExecutor))
                 {
-                    List<MissionTaskDto> missionTaskDtos = new List<MissionTaskDto>();
-                    foreach (var missionTask in mission.MissionTasks)
+                    var mission = missionFactory.CreateMission(assignAgv);
+                    if (mission != null)
                     {
-                        missionTaskDtos.Add(ConvertToMissionTaskDto(missionTask));
+                        missionManager.AddMission(mission);
+
+                        List<MissionTaskDto> missionTaskDtos = new List<MissionTaskDto>();
+                        foreach (var missionTask in mission.MissionTasks)
+                        {
+                            missionTaskDtos.Add(ConvertToMissionTaskDto(missionTask));
+                        }
+
+                        var taskDetails = string.Join(",", mission.MissionTasks.Select(x => $"({x.GetType().Name} ({x.TaskIndex}) , CarrierId: {x.CarrierId} , Goal: {x.Goal} , Port: {x.Port})").ToList());
+                        LoggerEventDispatcher.Info($"AgvTaskManager | Execute | InvokeMissionTasks: {mission.MissionId} , AgvId: {mission.AssignAgv.Id} , Tasks: {taskDetails}");
+
+                        missionServiceProxy.InvokeMissionTasks(mission.MissionId, missionTaskDtos);
+
+                        agvTaskExecutorDictionary.TryAdd(mission.AssignAgv, new AgvTaskExecutor(mission));
                     }
-
-                    missionServiceProxy.InvokeMissionTasks(mission.MissionId, missionTaskDtos);
-
-                    agvTaskExecutorDictionary.TryAdd(mission.AssignAgv, new AgvTaskExecutor(mission));
                 }
             }
 

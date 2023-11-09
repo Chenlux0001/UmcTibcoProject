@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace TibcoAdapter
 {
-    public class OutStockerEvent : TibcoEvent
+    public enum StockerCommandType
     {
-        public OutStockerEvent(string message) : base(TibcoEventType.OutStocker, message)
+        InStocker,
+        OutStocker
+    }
+
+    public class StockerEvent : TibcoTransferEvent
+    {
+        public StockerEvent(string message) : base(TibcoEventType.Stocker, message)
         {
             // TODO: Set Properties
         }
+
+        public StockerCommandType CommandType { get; }
 
         public override string CarrierId => throw new NotImplementedException();
 

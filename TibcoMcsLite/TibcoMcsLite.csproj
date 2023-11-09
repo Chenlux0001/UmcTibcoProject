@@ -52,12 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoadPort\LoadPort.cs" />
-    <Compile Include="LoadPort\LoadPortAccessMode.cs" />
-    <Compile Include="LoadPort\LoadPortState.cs" />
-    <Compile Include="LoadPort\LoadPortStatus.cs" />
-    <Compile Include="Stocker\Stocker.cs" />
-    <Compile Include="Stocker\StockerStatus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tibco\TibcoAdapter.cs" />

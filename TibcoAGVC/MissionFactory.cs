@@ -24,17 +24,17 @@ namespace TibcoAGVC
 
         public Mission CreateMission(Agv agv)
         {
-            #region Distribute TibcoEvent On PrepareTransfer By CarrierId
+            #region Distribute TibcoTransferEvent On PrepareTransfer By CarrierId
 
-            var tibcoEvents = tibcoEventManager.AllEvents.ToList();
-            foreach (var tibcoEvent in tibcoEvents)
+            var tibcoTransferEvents = tibcoEventManager.AllEvents.OfType<TibcoTransferEvent>().ToList();
+            foreach (var tibcoTransferEvent in tibcoTransferEvents)
             {
-                if (!prepareTransferDictionary.ContainsKey(tibcoEvent.CarrierId))
-                    prepareTransferDictionary.TryAdd(tibcoEvent.CarrierId, new PrepareTransfer(tibcoEvent.CarrierId));
+                if (!prepareTransferDictionary.ContainsKey(tibcoTransferEvent.CarrierId))
+                    prepareTransferDictionary.TryAdd(tibcoTransferEvent.CarrierId, new PrepareTransfer(tibcoTransferEvent.CarrierId));
 
-                prepareTransferDictionary[tibcoEvent.CarrierId].AddEvent(tibcoEvent);
+                prepareTransferDictionary[tibcoTransferEvent.CarrierId].AddEvent(tibcoTransferEvent);
 
-                tibcoEventManager.RemoveEvent(tibcoEvent);
+                tibcoEventManager.RemoveEvent(tibcoTransferEvent);
             }
 
             #endregion

@@ -46,15 +46,15 @@ namespace TibcoAGVC
             CoreModulesManager.Shutdown();
         }
 
-        private void BtnGetLoadPortMessage_Click(object sender, RoutedEventArgs e)
-        {
-            CoreModulesManager.McsLiteTcpClient.SendCommand("QueryLoadPortEvent");
-        }
+        //private void BtnGetLoadPortMessage_Click(object sender, RoutedEventArgs e)
+        //{
+        //    CoreModulesManager.McsLiteTcpClient.SendCommand("QueryLoadPortEvent");
+        //}
 
-        private void BtnGetOutStockerMessage_Click(object sender, RoutedEventArgs e)
-        {
-            CoreModulesManager.McsLiteTcpClient.SendCommand("QueryOutStockerEvent");
-        }
+        //private void BtnGetOutStockerMessage_Click(object sender, RoutedEventArgs e)
+        //{
+        //    CoreModulesManager.McsLiteTcpClient.SendCommand("QueryStockerEvent");
+        //}
 
         private void BtnGetJobPrepareMessage_Click(object sender, RoutedEventArgs e)
         {

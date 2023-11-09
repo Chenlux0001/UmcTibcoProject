@@ -56,7 +56,7 @@ namespace TibcoAGVC
             #endregion
 
             agvTaskManager = new AgvTaskManager(agvManager, missionManager, missionServiceProxy, tibcoEventManager, new MissionFactory(agvManager, tibcoEventManager));
-            agvTaskManager.Start();
+            //agvTaskManager.Start();
 
             #region McsLiteTcpClient
 

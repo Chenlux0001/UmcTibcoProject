@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TibcoAdapter
 {
-    public abstract class TibcoEvent
+    public class TibcoEvent
     {
         public TibcoEvent(TibcoEventType eventType, string message)
         {
@@ -18,10 +18,6 @@ namespace TibcoAdapter
 
         public string Message { get; }
 
-        public abstract string CarrierId { get; }
 
-        public abstract string Goal { get; }
-
-        public abstract string Port { get; }
     }
 }

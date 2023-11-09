@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 
 namespace TibcoAdapter
 {
-    public class LoadPortEvent : TibcoEvent
+    public enum LoadPortCommandType
+    {
+        ReadyToLoad,
+        ReadyToUnload,
+        LoadComplete,
+        UnloadComplete
+    }
+
+    public class LoadPortEvent : TibcoTransferEvent
     {
         public LoadPortEvent(string message) : base(TibcoEventType.LoadPort, message)
         {
             // TODO: Set Properties
         }
+
+        public LoadPortCommandType CommandType { get; }
 
         public override string CarrierId => throw new NotImplementedException();
 

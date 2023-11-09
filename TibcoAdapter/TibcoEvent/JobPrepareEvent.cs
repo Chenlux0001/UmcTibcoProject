@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TibcoAdapter
 {
-    public class JobPrepareEvent : TibcoEvent
+    public class JobPrepareEvent : TibcoTransferEvent
     {
         public JobPrepareEvent(string message) : base(TibcoEventType.JobPrepare, message)
         {

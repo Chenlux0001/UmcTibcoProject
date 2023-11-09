@@ -62,7 +62,7 @@ namespace TibcoAGVC
         public void NotifyReceiveServerMessage(JxTcpClient tcpClient, NotifyReceiveSocketMessageEventArgs e)
         {
             int headerLength = (sizeof(int) * 2);
-            if (e.CurrentRemainLength > headerLength)
+            if (e.CurrentRemainLength >= headerLength)
             {
                 if (tcpClient.Receive(headerLength, out byte[] headerBuffer))
                 {
@@ -80,17 +80,27 @@ namespace TibcoAGVC
                                 case TibcoEventType.JobPrepare:
                                     tibcoEventManager.AddEvent(new JobPrepareEvent(tibcoMessage));
                                     break;
-                                case TibcoEventType.InStocker:
-                                    tibcoEventManager.AddEvent(new InStockerEvent(tibcoMessage));
-                                    break;
-                                case TibcoEventType.OutStocker:
-                                    tibcoEventManager.AddEvent(new OutStockerEvent(tibcoMessage));
+                                case TibcoEventType.Stocker:
+                                    tibcoEventManager.AddEvent(new StockerEvent(tibcoMessage));
                                     break;
                                 case TibcoEventType.LoadPort:
                                     tibcoEventManager.AddEvent(new LoadPortEvent(tibcoMessage));
                                     break;
+                                case TibcoEventType.QueryJobPrepare:
+                                    tibcoEventManager.AddEvent(new QueryJobPrepareEvent(tibcoMessage));
+                                    break;
+                                case TibcoEventType.QueryStocker:
+                                    tibcoEventManager.AddEvent(new QueryStockerEvent(tibcoMessage));
+                                    break;
+                                case TibcoEventType.QueryLoadPort:
+                                    tibcoEventManager.AddEvent(new QueryLoadPortEvent(tibcoMessage));
+                                    break;
                             }
                         }
+                    }
+                    else
+                    {
+                        LoggerEventDispatcher.Error($"McsLiteTcpClient | NotifyReceiveServerMessage | Receive '{tibcoEventType}' Empty Message");
                     }
                 }
             }

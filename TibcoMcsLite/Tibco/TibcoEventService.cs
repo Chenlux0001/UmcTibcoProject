@@ -16,15 +16,15 @@ namespace TibcoMcsLite
         private Thread mainThread;
         private readonly JxTcpServer mcsLiteTcpServer;
         private readonly ITibcoAdapter tibcoAdapter;
-        private readonly List<TibcoEvent> tibcoEventList;
+        private readonly JxConcurrentList<TibcoEvent> tibcoEventList;
 
         public TibcoEventService(IPEndPoint localEndPoint, ITibcoAdapter tibcoAdapter)
         {
-            this.tibcoEventList = new List<TibcoEvent>();
+            this.tibcoEventList = new JxConcurrentList<TibcoEvent>();
 
             this.tibcoAdapter = tibcoAdapter;
             this.tibcoAdapter.OnListenLoadPortEvent += TibcoAdapter_OnListenLoadPortMessage;
-            this.tibcoAdapter.OnListenStockerEvent += TibcoAdapter_OnListenOutStockerMessage;
+            this.tibcoAdapter.OnListenStockerEvent += TibcoAdapter_OnListenStockerMessage;
             this.tibcoAdapter.OnListenJobPrepareEvent += TibcoAdapter_OnListenJobPrepareMessage;
 
             this.mcsLiteTcpServer = new JxTcpServer(localEndPoint, this, 1024, 1024);
@@ -33,7 +33,7 @@ namespace TibcoMcsLite
 
         private void TcpServer_OnException(object sender, Exception e)
         {
-            Console.WriteLine($"TibcoMessageService | TcpServer | Exception: {e}");
+            Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff} | TibcoMessageService | TcpServer | Exception: {e}");
         }
 
         public void Start()
@@ -58,7 +58,7 @@ namespace TibcoMcsLite
                     {
                         try
                         {
-                            Console.WriteLine($"TibcoMessageService | SendTibcoMessageToClient | Send TibcoMessage Success: {firstEvent.Message}");
+                            Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff} | TibcoMessageService | SendTibcoMessageToClient | Send TibcoMessage Success: {firstEvent.Message}");
 
                             byte[] eventMessageBuffer = Encoding.Default.GetBytes(firstEvent.Message);
                             byte[] sendBuffer = new byte[sizeof(int) + sizeof(int) + eventMessageBuffer.Length];
@@ -67,24 +67,27 @@ namespace TibcoMcsLite
                             // Data Length
                             Buffer.BlockCopy(BitConverter.GetBytes(eventMessageBuffer.Length), 0, sendBuffer, sizeof(int), sizeof(int));
                             // Event Message
-                            Buffer.BlockCopy(eventMessageBuffer, 0, sendBuffer, sizeof(int) * 2, eventMessageBuffer.Length);
-                            
+                            if (eventMessageBuffer.Length > 0)
+                                Buffer.BlockCopy(eventMessageBuffer, 0, sendBuffer, sizeof(int) * 2, eventMessageBuffer.Length);
+
                             // Send Message
                             mcsLiteTcpServer.Broadcast(sendBuffer, 0, sendBuffer.Length);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"TibcoMessageService | SendTibcoMessageToClient | Send TibcoMessage Error: {ex}");
+                            Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff} | TibcoMessageService | SendTibcoMessageToClient | Send TibcoMessage Error: {ex}");
                         }
 
                         tibcoEventList.Remove(firstEvent);
+
+                        Console.WriteLine();
                     }
 
                     Thread.Sleep(100);
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine($"TibcoMessageService | SendTibcoMessageToClient | Send TibcoMessage Error: {ex}");
+                    Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff} | TibcoMessageService | SendTibcoMessageToClient | Send TibcoMessage Error: {ex}");
 
                     Thread.Sleep(3000);
                 }
@@ -93,17 +96,17 @@ namespace TibcoMcsLite
 
         private void TibcoAdapter_OnListenLoadPortMessage(object sender, string message)
         {
-            tibcoEventList.Add(new LoadPortEvent(message));
+            tibcoEventList.Add(new LoadPortEvent(message.Trim()));
         }
 
-        private void TibcoAdapter_OnListenOutStockerMessage(object sender, string message)
+        private void TibcoAdapter_OnListenStockerMessage(object sender, string message)
         {
-            tibcoEventList.Add(new OutStockerEvent(message));
+            tibcoEventList.Add(new StockerEvent(message.Trim()));
         }
 
         private void TibcoAdapter_OnListenJobPrepareMessage(object sender, string message)
         {
-            tibcoEventList.Add(new JobPrepareEvent(message));
+            tibcoEventList.Add(new JobPrepareEvent(message.Trim()));
         }
 
         public void NotifyAcceptClientConnect(JxTcpServer tcpServer, NotifyAcceptSocketEventArgs e)
@@ -131,18 +134,18 @@ namespace TibcoMcsLite
                             string command = Encoding.Default.GetString(receiveBuffer, 0, commandLength);
                             if (command == "QueryLoadPortEvent")
                             {
-                                string loadPortMessage = tibcoAdapter.QueryLoadPortEvent();
-                                tibcoEventList.Add(new LoadPortEvent(loadPortMessage));
+                                string queryLoadPortMessage = tibcoAdapter.QueryLoadPortEvent();
+                                tibcoEventList.Add(new QueryLoadPortEvent(queryLoadPortMessage));
                             }
-                            else if (command == "QueryOutStockerEvent")
+                            else if (command == "QueryStockerEvent")
                             {
-                                string outStockerMessage = tibcoAdapter.QueryStockerEvent();
-                                tibcoEventList.Add(new OutStockerEvent(outStockerMessage));
+                                string queryStockerMessage = tibcoAdapter.QueryStockerEvent();
+                                tibcoEventList.Add(new QueryStockerEvent(queryStockerMessage));
                             }
                             else if (command == "QueryJobPrepareEvent")
                             {
-                                string jobPrepareMessage = tibcoAdapter.QueryJobPrepareEvent();
-                                tibcoEventList.Add(new JobPrepareEvent(jobPrepareMessage));
+                                string queryJobPrepareMessage = tibcoAdapter.QueryJobPrepareEvent();
+                                tibcoEventList.Add(new QueryJobPrepareEvent(queryJobPrepareMessage));
                             }
                         }
                     }

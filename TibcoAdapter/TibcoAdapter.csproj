@@ -53,17 +53,20 @@
     <Compile Include="Mission\MissionTaskStatus.cs" />
     <Compile Include="Mission\PickTask.cs" />
     <Compile Include="PrepareTransfer.cs" />
+    <Compile Include="QueryJobPrepareEvent.cs" />
+    <Compile Include="QueryLoadPortEvent.cs" />
+    <Compile Include="QueryStockerEvent.cs" />
     <Compile Include="TibcoEventType.cs" />
-    <Compile Include="TibcoEvent\InStockerEvent.cs" />
     <Compile Include="ITibcoAdapter.cs" />
     <Compile Include="TibcoLib.cs" />
     <Compile Include="TibcoEvent\JobPrepareEvent.cs" />
     <Compile Include="TibcoEvent\LoadPortEvent.cs" />
-    <Compile Include="TibcoEvent\OutStockerEvent.cs" />
+    <Compile Include="TibcoEvent\StockerEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tcp\TcpComClient.cs" />
     <Compile Include="Tcp\TcpServer.cs" />
     <Compile Include="TibcoEvent\TibcoEvent.cs" />
+    <Compile Include="TibcoEvent\TibcoTransferEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

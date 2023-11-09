@@ -19,8 +19,8 @@
             </TabControl>
         </Border>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <Button Name="btnGetLoadPortMessage" Content="QueryLoadPortEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetLoadPortMessage_Click"/>
-            <Button Name="btnGetOutStockerMessage" Content="QueryOutStockerEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetOutStockerMessage_Click"/>
+            <!--<Button Name="btnGetLoadPortMessage" Content="QueryLoadPortEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetLoadPortMessage_Click"/>
+            <Button Name="btnGetOutStockerMessage" Content="QueryOutStockerEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetOutStockerMessage_Click"/>-->
             <Button Name="btnGetJobPrepareMessage" Content="QueryJobPrepareEvent" Margin="30" Style="{StaticResource {x:Static lib:JxCustomResources.DefaultContentButtonKey}}" Click="BtnGetJobPrepareMessage_Click"/>
         </StackPanel>
         

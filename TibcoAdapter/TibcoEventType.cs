@@ -9,8 +9,10 @@ namespace TibcoAdapter
     public enum TibcoEventType
     {
         JobPrepare = 1,
-        InStocker = 2,
-        OutStocker = 3,
-        LoadPort = 4
+        Stocker = 2,
+        LoadPort = 3,
+        QueryJobPrepare = 4,
+        QueryStocker = 5,
+        QueryLoadPort = 6,
     }
 }
